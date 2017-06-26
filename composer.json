@@ -1,0 +1,21 @@
+{
+    "name": "greenelf/laravel-cypher",
+    "version": "1.0.0",
+    "description": "Cypher tamplates",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex",
+            "email": "alexandr.cctv@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "classmap": [],
+        "files": [],
+        "psr-4": {
+            "Greenelf\\LaravelCypher\\": "src/"
+        }
+    }
+}
