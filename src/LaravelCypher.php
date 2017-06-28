@@ -66,6 +66,10 @@ class LaravelCypher
         $prepareVariables = [];
         foreach ($variables as $item) {
             if (is_string($item)) {
+                $this->_createFloatValue($item);
+            }
+
+            if (is_string($item)) {
                 array_push($prepareVariables, "'$item'");
             }
             if (is_int($item)) {
@@ -108,5 +112,22 @@ class LaravelCypher
         }
 
         return false;
+    }
+
+    private function _createFloatValue(&$string)
+    {
+        $re = '/^\d*[,.]\d*$/';
+
+        preg_match_all($re, $string, $matches, PREG_SET_ORDER, 0);
+
+        if ($matches === []) {
+            return false;
+        }
+
+        $string = preg_replace('/,/', '.', $string);
+
+        $string = floatval($string);
+
+        return true;
     }
 }
