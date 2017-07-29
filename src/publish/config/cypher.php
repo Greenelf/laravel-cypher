@@ -6,5 +6,5 @@
  * Time: 19:30
  */
 return [
-    'dir' => 'resources/cypher',
+    'dir' => '/cypher',
 ];
