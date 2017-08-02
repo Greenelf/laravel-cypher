@@ -52,6 +52,10 @@ class LaravelCypher
             array_values($variables)
         );
 
+	if (count($variableRegexp) !== count($prepareVariablesValues)) {
+            throw new \Exception('Variables have empty values!!');
+        }
+
         $str = preg_replace(
             $variableRegexp,
             $prepareVariablesValues,
