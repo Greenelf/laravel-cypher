@@ -27,16 +27,16 @@ class LaravelCypher
         }
     }
 
-    public function createQuery($cypherFile, $variables = [])
+    public function createQuery($cypherFile, $variables = [], $rawData = [])
     {
         if ($this->_validateQueryParameters($cypherFile, $variables)) {
             return false;
         }
 
-        return $this->_render($cypherFile, $variables);
+        return $this->_render($cypherFile, $variables, $rawData);
     }
 
-    private function _render($cypherFile, $variables)
+    private function _render($cypherFile, $variables, $rawData)
     {
         $fileContent = file_get_contents(
             $this->cypherFilesDir.$cypherFile.'.cypher'
@@ -56,6 +56,12 @@ class LaravelCypher
             throw new \Exception('Variables have empty values!!');
         }
 
+        if (count($rawData) > 0) {
+            foreach ($rawData as $key => $value) {
+                array_push($variableRegexp, "/[$]".$key."/");
+                array_push($prepareVariablesValues, $value);
+            }
+        }
         $str = preg_replace(
             $variableRegexp,
             $prepareVariablesValues,
@@ -135,3 +141,4 @@ class LaravelCypher
         return true;
     }
 }
+
