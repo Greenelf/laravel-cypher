@@ -80,6 +80,7 @@ class LaravelCypher
             }
 
             if (is_string($item)) {
+                $this->_formatString($item);
                 array_push($prepareVariables, "'$item'");
             }
             if (is_int($item)) {
@@ -105,6 +106,18 @@ class LaravelCypher
         return $prepareVariables;
     }
 
+    private function _formatString(&$value)
+    {
+        $trashSymbols = [
+            "'",
+            '\\'
+        ];
+
+        foreach ($trashSymbols as $simbol) {
+            $value = str_replace($simbol, '\\'.$simbol, $value);
+        }
+    }
+
     private function _setCyphePath()
     {
         $this->cypherFilesDir = resource_path().config('cypher.dir').'/';
@@ -115,6 +128,7 @@ class LaravelCypher
     private function _validateQueryParameters($cypherFile, $variables)
     {
         $cypherFile = $this->cypherFilesDir.$cypherFile.'.cypher';
+
         if (!file_exists($cypherFile)) {
             Log::error($cypherFile.' - Not found!!!');
 
